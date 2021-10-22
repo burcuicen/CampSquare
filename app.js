@@ -1,8 +1,11 @@
 const express = require('express')
 const mongoose = require('mongoose')
+const ejsMate = require('ejs-mate');
 const methodOverride = require('method-override')
 const path = require('path')
 const Campground = require('./models/campground')
+//const morgan=require("morgan");
+
 
 mongoose.connect('mongodb://localhost:27017/camp-square', {
   useNewUrlParser: true,
@@ -15,6 +18,7 @@ db.once('open', () => {
   console.log('database connected')
 })
 const app = express()
+app.engine('ejs', ejsMate)
 
 //Server file
 //setting up views folder
@@ -23,6 +27,9 @@ app.set('views', path.join(__dirname, 'views'))
 app.use(express.urlencoded({ extended: true }))
 app.use(methodOverride('_method'))
 //home.ejs is the first page
+//use morgan package for logging
+//app.use(morgan("dev"))
+
 app.get('/', (req, res) => {
   res.render('home')
 })
