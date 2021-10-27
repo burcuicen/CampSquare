@@ -20,7 +20,7 @@
                 </form>
             </div>
             <h2>Leave a Review</h2>
-            <form action="/campgrounds/<%= campground._id%>/reviews " method="POST" class="mb-3">
+            <form action="/campgrounds/<%= campground._id%>/reviews " method="POST" novalidate class="validated-form">
                 <div class="mb-3">
                     <label class="form-label" for="rating">Rating</label>
                         <input class="form-range" type="range" min="1" max="5" name="review[rating]" id="rating">
@@ -28,10 +28,14 @@
                 </div>
                 <div class="mb-3">
                     <label class="form-label" for="body">Review:</label>
-                    <textarea class="form-control" name="review[body]" id="body" cols="30" rows="3"> 
-                    </textarea>
-                    
+                    <textarea class="form-control" name="review[body]" id="body" cols="30" rows="3" minlength="10" required></textarea>
+                    <div class="valid-feedback">
+                        Done!
+                    </div>
+                    <div class="invalid-feedback">
+You should share your opinion in at least 10 characters!</div>
                 </div>
+              
                 <button class="btn btn-success">
                     Add Review
                 </button>
