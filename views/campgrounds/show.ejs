@@ -1,7 +1,7 @@
 <% layout('layouts/boilerplate')%>
 <div class="row">
-    <div style="display: flex; justify-content: center; align-items: center;">
-        <div class="card" style="width: 78rem;">
+    <div class="col-7" >
+        <div class="card" style="width: 38rem;">
             <img class="card-img-top" src="<%= campground.image %> " alt="Card image cap">
             <div class="card-body">
               <h5 class="card-title"><%=campground.title%></h5>
@@ -19,32 +19,47 @@
                     
                 </form>
             </div>
-            <h2>Leave a Review</h2>
-            <form action="/campgrounds/<%= campground._id%>/reviews " method="POST" novalidate class="validated-form">
-                <div class="mb-3">
-                    <label class="form-label" for="rating">Rating</label>
-                        <input class="form-range" type="range" min="1" max="5" name="review[rating]" id="rating">
-                    </label>
-                </div>
-                <div class="mb-3">
-                    <label class="form-label" for="body">Review:</label>
-                    <textarea class="form-control" name="review[body]" id="body" cols="30" rows="3" minlength="10" required></textarea>
-                    <div class="valid-feedback">
-                        Done!
-                    </div>
-                    <div class="invalid-feedback">
-You should share your opinion in at least 10 characters!</div>
-                </div>
-              
-                <button class="btn btn-success">
-                    Add Review
-                </button>
-            </form>
+            
           </div>
 
     </div>
+    <div class="col-5" style="width: 28rem;">
+        <h2>Leave a Review</h2>
+        <form action="/campgrounds/<%= campground._id%>/reviews " method="POST" novalidate class="validated-form">
+            <div class="mb-3">
+                <label class="form-label" for="rating">Rating</label>
+                    <input class="form-range" type="range" min="1" max="5" name="review[rating]" id="rating">
+                </label>
+            </div>
+            <div class="mb-3">
+                <label class="form-label" for="body">Review:</label>
+                <textarea class="form-control" name="review[body]" id="body" cols="30" rows="3" minlength="10" required></textarea>
+                <div class="valid-feedback">
+                    Done!
+                </div>
+                <div class="invalid-feedback">
+You should share your opinion in at least 10 characters!</div>
+            </div>
+          
+            <button class="btn btn-success">
+                Add Review
+            </button>
+        </form>
+        <% for (let review of campground.reviews){%> 
+            <div class="card mb-3">
+
+            
+        <div class="card-body">
+            <h5 class="card-title"> Rating <%= review.rating %> </h5>
+          <p class="card-text"> Review: <%= review.body %> </p>
+           
+
+        </div>
+    </div>
+        <%}%> 
+    </div>
 </div>
- 
+ <footer>
      
         <a href="/campgrounds">
             All Campgrounds
