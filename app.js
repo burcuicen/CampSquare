@@ -1,6 +1,7 @@
 const express = require('express')
 const mongoose = require('mongoose')
 const ejsMate = require('ejs-mate')
+const session = require('express-session')
 const ExpressError = require('./utils/ExpressError')
 const methodOverride = require('method-override')
 const path = require('path')
@@ -30,6 +31,19 @@ app.use(methodOverride('_method'))
 //home.ejs is the first page
 //use morgan package for logging
 //app.use(morgan("dev"))
+app.use(express.static(path.join(__dirname, 'public')))
+//setting up cookies
+const sessionConfig = {
+  secret: 'gotasecret',
+  resave: false,
+  saveUninitialized: true,
+  cookie: {
+    httpOnly: true,
+    expires: Date.now() + 1000 * 60 * 60 * 24 * 7, //session expiration date(a week from now)
+    maxAge: 1000 * 60 * 60 * 24 * 7,
+  },
+}
+app.use(session(sessionConfig))
 
 app.use('/campgrounds', campgrounds)
 app.use('/campgrounds/:id/reviews', reviews)
