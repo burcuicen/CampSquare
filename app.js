@@ -7,6 +7,7 @@ const ExpressError = require('./utils/ExpressError')
 const methodOverride = require('method-override')
 const path = require('path')
 const Campground = require('./models/campground')
+const Review = require('./models/review')
 //const morgan=require("morgan");
 
 mongoose.connect('mongodb://localhost:27017/camp-square', {
@@ -112,6 +113,19 @@ app.delete(
     const { id } = req.params
     await Campground.findByIdAndDelete(id)
     res.redirect('/campgrounds')
+  }),
+)
+app.post(
+  '/campgrounds/:id/reviews',
+  catchAsync(async (req, res) => {
+    //res.send('DONE')
+    const campground = await Campground.findById(req.params.id)
+    const review = new Review(req.body.review)
+    campground.reviews.push(review)
+    await review.save()
+    await campground.save()
+
+    res.redirect(`/campgrounds/${campground._id}`)
   }),
 )
 app.all('*', (req, res, next) => {
