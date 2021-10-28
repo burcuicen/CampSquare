@@ -7,6 +7,7 @@ const ExpressError = require('./utils/ExpressError')
 const methodOverride = require('method-override')
 const path = require('path')
 const campgrounds = require('./routes/campgrounds')
+const users = require('./routes/users')
 const reviews = require('./routes/reviews')
 const passport = require('passport')
 const LocalStrategy = require('passport-local')
@@ -59,7 +60,7 @@ app.use((req, res, next) => {
   res.locals.error = req.flash('error')
   next()
 })
-
+app.use('/', users)
 app.use('/campgrounds', campgrounds)
 app.use('/campgrounds/:id/reviews', reviews)
 
