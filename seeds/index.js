@@ -25,6 +25,7 @@ const seedDB = async () => {
     const random80 = Math.floor(Math.random() * 80) //pick a random number to create campgrounds randomly
     const price = Math.floor(Math.random() * 80) + 10
     const camp = new Campground({
+      author: '617c1e09035fd2e8b648f374',
       location: `${cities[random80].city}, ${cities[random80].state}`, //setting random city
       title: `${sample(descriptors)} ${sample(places)}`, //setting random titles combining two objects
       image: 'https://source.unsplash.com/collection/483251',
