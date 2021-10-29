@@ -40,5 +40,9 @@ router.post(
     res.redirect('/campgrounds')
   },
 )
-
+router.get('/logout', (req, res) => {
+  req.logout()
+  req.flash('success', 'Sad to see you go :(!!')
+  res.redirect('/campgrounds')
+})
 module.exports = router
