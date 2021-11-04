@@ -22,6 +22,7 @@ const validateCampground = (req, res, next) => {
       location: Joi.string().required(),
       description: Joi.string().required(),
     }).required(),
+    deleteImages: Joi.array(),
   })
   const { error } = campgroundSchema.validate(req.body)
   //console.log(result)
