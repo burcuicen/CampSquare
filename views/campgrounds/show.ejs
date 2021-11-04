@@ -3,7 +3,10 @@
 <div class="row">
     <div class="col-7" >
         <div class="card" style="width: 38rem;">
-            <img class="card-img-top" src="<%= campground.image %> " alt="Card image cap">
+            <% for(let img of campground.images){  %> 
+                <img class="card-img-top" src="<%= img.url %> " alt="Card image cap"> 
+                <% } %> 
+          
             <div class="card-body">
               <h5 class="card-title"><%=campground.title%></h5>
               <p class="card-text"><%= campground.description %></p>

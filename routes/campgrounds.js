@@ -18,7 +18,7 @@ const validateCampground = (req, res, next) => {
     campground: Joi.object({
       title: Joi.string().required(),
       price: Joi.number().required().min(0),
-      image: Joi.string().required(),
+      //image: Joi.string().required(),
       location: Joi.string().required(),
       description: Joi.string().required(),
     }).required(),
@@ -36,16 +36,17 @@ const validateCampground = (req, res, next) => {
 router
   .route('/')
   .get(catchAsync(campgrounds.index))
-  // .post(
-  //   isLoggedIn,
-  //   validateCampground,
-  //   catchAsync(campgrounds.createCampground),
-  // )
-  //Multiple image
-  .post(upload.array('image'), (req, res) => {
-    console.log(req.body, req.files)
-    res.send('look at the console')
-  })
+  .post(
+    isLoggedIn,
+    upload.array('image'),
+    validateCampground,
+    catchAsync(campgrounds.createCampground),
+  )
+//Multiple images
+// .post(upload.array('image'), (req, res) => {
+//   console.log(req.body, req.files)
+//   res.send('look at the console')
+// })
 //Single image
 // .post(upload.single('image'), (req, res) => {
 //   console.log(req.body, req.file)
