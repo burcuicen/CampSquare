@@ -5,10 +5,11 @@ const Joi = require('joi')
 
 const catchAsync = require('../utils/catchAsync')
 const { isLoggedIn, isAuthor } = require('../middleware')
+const multer = require('multer')
+const { storage } = require('../cloudinary')
+const upload = multer({ storage })
 const ExpressError = require('../utils/ExpressError')
 const Campground = require('../models/campground')
-const multer = require('multer')
-const upload = multer({ dest: 'uploads/' })
 
 const validateCampground = (req, res, next) => {
   // if (!req.body.campground)
@@ -41,15 +42,15 @@ router
   //   catchAsync(campgrounds.createCampground),
   // )
   //Multiple image
-  // .post(upload.array('image'), (req, res) => {
-  //   console.log(req.body, req.files)
-  //   res.send('look at the console')
-  // })
-  //Single image
-  .post(upload.single('image'), (req, res) => {
-    console.log(req.body, req.file)
+  .post(upload.array('image'), (req, res) => {
+    console.log(req.body, req.files)
     res.send('look at the console')
   })
+//Single image
+// .post(upload.single('image'), (req, res) => {
+//   console.log(req.body, req.file)
+//   res.send('look at the console')
+// })
 
 router.get('/new', isLoggedIn, campgrounds.renderNewForm)
 
