@@ -7,6 +7,9 @@ const catchAsync = require('../utils/catchAsync')
 const { isLoggedIn, isAuthor } = require('../middleware')
 const ExpressError = require('../utils/ExpressError')
 const Campground = require('../models/campground')
+const multer = require('multer')
+const upload = multer({ dest: 'uploads/' })
+
 const validateCampground = (req, res, next) => {
   // if (!req.body.campground)
   //   throw new ExpressError('Invalid Campground Data', 400)
@@ -32,11 +35,21 @@ const validateCampground = (req, res, next) => {
 router
   .route('/')
   .get(catchAsync(campgrounds.index))
-  .post(
-    isLoggedIn,
-    validateCampground,
-    catchAsync(campgrounds.createCampground),
-  )
+  // .post(
+  //   isLoggedIn,
+  //   validateCampground,
+  //   catchAsync(campgrounds.createCampground),
+  // )
+  //Multiple image
+  // .post(upload.array('image'), (req, res) => {
+  //   console.log(req.body, req.files)
+  //   res.send('look at the console')
+  // })
+  //Single image
+  .post(upload.single('image'), (req, res) => {
+    console.log(req.body, req.file)
+    res.send('look at the console')
+  })
 
 router.get('/new', isLoggedIn, campgrounds.renderNewForm)
 
