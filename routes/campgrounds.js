@@ -37,6 +37,8 @@ const validateCampground = (req, res, next) => {
 router
   .route('/')
   .get(catchAsync(campgrounds.index))
+  
+
   .post(
     isLoggedIn,
     upload.array('image'),
@@ -54,7 +56,11 @@ router
 //   res.send('look at the console')
 // })
 
+  
 router.get('/new', isLoggedIn, campgrounds.renderNewForm)
+
+
+
 
 router
   .route('/:id')

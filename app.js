@@ -14,7 +14,8 @@ const users = require('./routes/users')
 const reviews = require('./routes/reviews')
 const passport = require('passport')
 const LocalStrategy = require('passport-local')
-const User = require('./models/user')
+const User = require('./models/user');
+const Campground = require('./models/campground');
 //const morgan=require("morgan");
 
 mongoose.connect('mongodb://localhost:27017/camp-square', {
@@ -71,6 +72,13 @@ app.use('/campgrounds/:id/reviews', reviews)
 
 app.get('/', (req, res) => {
   res.render('home')
+})
+app.get("/map",async(req,res)=>{
+  const campgrounds=await Campground.find({});
+  res.render("mapPage",{campgrounds})
+  console.log(campgrounds)
+  
+
 })
 
 app.all('*', (req, res, next) => {

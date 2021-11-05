@@ -1,4 +1,4 @@
-<%- include('../partials/navbar')%>
+<%- include('./partials/navbar')%>
 
  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
 <link rel="stylesheet" href="/styles/app.css">
@@ -6,92 +6,24 @@
 <link href="https://api.mapbox.com/mapbox-gl-js/v2.5.1/mapbox-gl.css" rel="stylesheet">
 <script src="https://api.mapbox.com/mapbox-gl-js/v2.5.1/mapbox-gl.js"></script>
 <style>
-   
-    #map {  width: 100%; height: 500px; }
-    </style>
-</script>
+	
+	#map { width: 100%; height: 100%; }
+	</style>
+	<div class="d-flex" style="flex-direction: row; justify-content: space-between;">
+		<a href="/campgrounds/new" role="button"
+			class="btn btn-lg btn-success ms-5" style="margin-top: 50px; margin-bottom: 50px;display: flex; justify-content: flex-end;">Add New Campground
+		</a>
+		<h1 style="margin-top: 50px; margin-bottom: 50px; display: flex; justify-content: center;">
+			Turkey Campgrounds Map
+		</h1>
+		<a href="/campgrounds" role="button"
+			class="btn btn-lg btn-danger" style="margin-right:50px;margin-top: 50px; margin-bottom: 50px;display: flex; justify-content: flex-end;">Back to Campgrounds
+		</a>
+		
 
+	</div>
 
-<header class="jumbotron text-light rounded-0 d-none d-md-block mb-5">
-    <div class="container ">
-      <div class="jumbotron-text mt-5 text-center">
-        
-          <h1 class="display-3 jumbotronText">Welcome to Camp Squre!</h1>
-          <p class="lead jumbotronText">This is where the adventure begins...</p>
-       
-      </div>
-    </div>
-  </header>
-  
-  
-  
-  
-  
-  <div class="container" id="map"></div>
-
-  
-<h1 
-style="display: flex; justify-content: center;">All Campgrounds</h1>
-
-   
-<div class="container">
-    <div class="row">
-        
-        <% for(let campground of campgrounds){%>
-            <div class="col-xl-4">
-                <div class="card mb-4 cardItem"
-                >
-                    <div class="">
-                        <div class="">
-                            <% if(campground.images.length){%> 
-                            <img  class="img-fluid" style="width: fit-content;" alt="" src=" <%=campground.images[0].url%>" >
-                                <% }else{ %> 
-                                    <img  class="img-fluid" style="width: fit-content;" alt="" src="https://res.cloudinary.com/camp-square/image/upload/v1636075704/CampSquare/fj56batbwa1a1apb9yql.jpg" >
-
-                                 <% } %> 
-                                    
-                        </div>
-                       
-                        <div class="">
-                            <div class="card-body">
-                                <h5 class="card-body" style="text-align: left;" >
-                                    <%=campground.title%>
-                                </h5>
-                                <p class="card-text" >
-                                <%= campground.description.substring(0, 200) + "..."  %>
-                                   
-                                </p>
-                                <p class="card-text text-muted">
-                                    <small class="text-muted">
-                                        <%=campground.location%>
-                                    </small>
-                                </p>
-                                <a class="btn btn-primary" href="/campgrounds/<%=campground._id%>"> 
-                                    View  <%=campground.title%>
-        
-                                </a>
-                                
-                            </div>
-                        </div>
-                    </div>
-        
-                </div>
-           
-               
-            </div>
-
-            
-        <%}%>
-
-
-    </div>
-</div>
-
-
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js" integrity="sha384-7+zCNj/IqJ95wo16oMtfsKbZ9ccEh31eOz1HGyDuCQ6wgnyJNSYdrPa03rtR1zdB" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js" integrity="sha384-QJHtvGhmr9XOIpI6YVutG+2QOK9T+ZnN4kzFN1RtK3zEFEIsxhlmWl5/YESvpZ13" crossorigin="anonymous"></script>
-<script src="/scripts/validateForms.js">
-</script>
+	<div id="map"></div>
 <script>
     const mapToken = '<%-process.env.MAPBOX_TOKEN%>';
     const campgrounds= {features:<%- JSON.stringify(campgrounds)  %>}
@@ -103,7 +35,7 @@ const map = new mapboxgl.Map({
 container: 'map',
 style: 'mapbox://styles/mapbox/light-v10',
 center: [35.1795933806353, 39.0604813685019],
-zoom: 5
+zoom: 5.2
 });
 
  
@@ -232,5 +164,6 @@ map.getCanvas().style.cursor = '';
 });
 });
 </script>
+<%- include('./partials/footer')%>
  
-<%- include('../partials/footer')%>
+
