@@ -4,7 +4,7 @@
 
 
 <div class="row">
-    <div class="col-6" >
+    <div class="col-7" >
         
         <div class="card" style="width: 38rem;">
             <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
@@ -55,8 +55,8 @@
           </div>
 
     </div>
-    <div class="col-6" >
-        <div id='map' style='width: 600px; height: 300px;'></div>
+    <div class="col-5" >
+        <div id='map' style='width: 400px; height: 300px;'></div>
         <% if(currentUser)  {%> 
         <h2>Leave a Review</h2>
         <form action="/campgrounds/<%= campground._id%>/reviews " method="POST" novalidate class="validated-form">
