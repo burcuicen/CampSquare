@@ -2,12 +2,10 @@
 <link rel="stylesheet" href="/styles/stars.css">
 
 
+
 <div class="row">
     <div class="col-6" >
-      
         
-        
-    
         <div class="card" style="width: 38rem;">
             <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
                 <div class="carousel-inner">
@@ -50,13 +48,15 @@
                     <button class="btn btn-danger">Delete</button>
                     
                 </form>
+                
             </div>
             <% } %> 
-            
+          
           </div>
 
     </div>
-    <div class="col-5" style="width: 28rem;">
+    <div class="col-6" >
+        <div id='map' style='width: 600px; height: 300px;'></div>
         <% if(currentUser)  {%> 
         <h2>Leave a Review</h2>
         <form action="/campgrounds/<%= campground._id%>/reviews " method="POST" novalidate class="validated-form">
@@ -112,6 +112,7 @@ You should share your opinion in at least 10 characters!</div>
             </p>
             <!-- <h6 class="card-subtitle mb-2 text-muted">By <%= review.author.username%></h6> -->
           <p class="card-text">  <%= review.body %> </p>
+         
           <%  if( currentUser && review.author.equals(currentUser._id))  {%>
           <form action="/campgrounds/<%= campground._id %>/reviews/<%= review._id %>?_method=DELETE" method="POST">
             <button class="btn btn-sm btn-danger">
@@ -130,5 +131,10 @@ You should share your opinion in at least 10 characters!</div>
             All Campgrounds
         </a>
     </footer>
+    <script>
+        const mapToken = '<%-process.env.MAPBOX_TOKEN%>';
+        const campground=<%- JSON.stringify(campground)  %>
+        const coordinates=<%- JSON.stringify(campground.geometry.coordinates)  %>
+    </script>
     
-
+    <script src="/scripts/showPageMap.js"></script> 
