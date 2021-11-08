@@ -1,5 +1,7 @@
 
 <% layout('layouts/boilerplate')%>
+<link rel="stylesheet" href="/styles/stars.css">
+
 
 <h1>Profile</h1>
 <div class="card" style="width: 18rem;">
@@ -19,15 +21,35 @@
       <a href="#" class="card-link">Delete Account</a>
     </div>
   </div>
+  <h2>My Reviews</h2>
+  <% for(let review of reviews){%>
+    <%  if( currentUser && review.author.equals(currentUser._id))  {%>
+
+      <p class="starability-result" data-rating="<%=review.rating%>">
+        Rated: <%= review.rating %> stars
+    </p>
+      <p><%= review.body  %> </p>
+    
+    
+    <% } %> 
+  
+    
+  
+  
+  
+    <% } %> 
+  
 <h2>My Campgrounds</h2>
 
 <% for(let campground of campgrounds){%>
     
-    <% if(user && campground.author.equals(user._id) ){%>
+    <% if(currentUser && campground.author.equals(currentUser._id) ){%>
         <h1><%= campground.title %> </h1>
         <p><%= campground.description %> </p>
         <% } %>      
    
 <%}%>
+
+
 
 
