@@ -1,13 +1,22 @@
 
 <% layout('layouts/boilerplate')%>
 <link rel="stylesheet" href="/styles/stars.css">
+<link rel="stylesheet" href="/styles/app.css">
 
+<div class="container">
+  <div class="row">
+  
+ <div class="col-sm">
 
+ 
 <h1>Profile</h1>
+
+
+ 
 <div class="card" style="width: 18rem;">
     
     <div class="card-body">
-        <img src="<%= user.avatar %> " alt="">
+        <img class="avatar" src="<%= user.avatar %> " alt="">
       <h5 class="card-title"><%= user.name %> </h5>
       <p class="card-text"><%= user.bio %> </p>
     </div>
@@ -21,6 +30,8 @@
       <a href="#" class="card-link">Delete Account</a>
     </div>
   </div>
+</div>
+<div class="col-sm">
   <h2>My Reviews</h2>
   <% for(let review of reviews){%>
     <%  if( currentUser && review.author.equals(currentUser._id))  {%>
@@ -38,18 +49,23 @@
   
   
     <% } %> 
-  
+  </div>
+  <div class="col-sm">
 <h2>My Campgrounds</h2>
 
 <% for(let campground of campgrounds){%>
-    
+   
     <% if(currentUser && campground.author.equals(currentUser._id) ){%>
+      
         <h1><%= campground.title %> </h1>
         <p><%= campground.description %> </p>
         <% } %>      
-   
+      
 <%}%>
 
+</div>
 
 
-
+  
+</div>
+</div>

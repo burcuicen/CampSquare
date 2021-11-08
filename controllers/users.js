@@ -8,7 +8,15 @@ module.exports.register = async (req, res, next) => {
   try {
     const { email, username, password, name, bio, avatar } = req.body
     const user = new User({ email, username, name, bio, avatar })
+    
     const registeredUser = await User.register(user, password)
+    const img = req.files.map((f) => ({
+      url: f.path,
+    }))
+    console.log(img[0].url)
+    user.avatar=img[0].url
+    await user.save()
+    console.log(user.avatar)
     req.login(registeredUser, (err) => {
       if (err) return next(err)
       req.flash('success', 'Welcome to Yelp Camp!')

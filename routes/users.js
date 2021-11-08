@@ -4,11 +4,14 @@ const passport = require('passport')
 const catchAsync = require('../utils/catchAsync')
 const User = require('../models/user')
 const users = require('../controllers/users')
+const multer = require('multer')
+const { storage } = require('../cloudinary')
+const upload = multer({ storage })
 //refactor similar routes to write clean code
 router
   .route('/register')
   .get(users.renderRegister)
-  .post(catchAsync(users.register))
+  .post( upload.array('avatar'),catchAsync(users.register))
 
 router
   .route('/login')
