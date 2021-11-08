@@ -16,7 +16,13 @@
 <div class="card" style="width: 18rem;">
     
     <div class="card-body">
+      <% if(user.avatar){ %> 
         <img class="avatar" src="<%= user.avatar %> " alt="">
+        <% }else{ %> 
+          <img class="avatar" src="https://cdn.iconscout.com/icon/free/png-256/camp-13-93833.png " alt="">
+          <% } %> 
+
+          
       <h5 class="card-title"><%= user.name %> </h5>
       <p class="card-text"><%= user.bio %> </p>
     </div>
@@ -40,6 +46,7 @@
         Rated: <%= review.rating %> stars
     </p>
       <p><%= review.body  %> </p>
+      
     
     
     <% } %> 
