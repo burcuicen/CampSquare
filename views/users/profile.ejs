@@ -9,17 +9,23 @@
  <div class="col-sm">
 
  
-<h1>Profile</h1>
+<h2>Profile</h2>
 
 
  
-<div class="card" style="width: 18rem;">
+<div class="card mt-5 " style="width: 25rem; text-align: center;">
     
     <div class="card-body">
       <% if(user.avatar){ %> 
-        <img class="avatar" src="<%= user.avatar %> " alt="">
+        <img style="display: block;
+        margin-left: auto;
+        margin-right: auto;
+        width: 50%;" class="avatar img-fluid" src="<%= user.avatar %> " alt="">
         <% }else{ %> 
-          <img class="avatar" src="https://cdn.iconscout.com/icon/free/png-256/camp-13-93833.png " alt="">
+          <img style="display: block;
+          margin-left: auto;
+          margin-right: auto;
+          width: 50%;" class="avatar img-fluid" src="https://cdn.iconscout.com/icon/free/png-256/camp-13-93833.png " alt="">
           <% } %> 
 
           
@@ -32,40 +38,67 @@
      
     </ul>
     <div class="card-body">
-      <a href="#" class="card-link">Edit</a>
-      <a href="#" class="card-link">Delete Account</a>
+      <a href="#" class="card-link btn btn-success">Edit</a>
+      <a href="#" class="card-link btn btn-danger">Delete Account</a>
     </div>
   </div>
 </div>
-<div class="col-sm">
+<div class="col-sm ">
   <h2>My Reviews</h2>
+  
+  
   <% for(let review of reviews){%>
-    <%  if( currentUser && review.author.equals(currentUser._id))  {%>
+    <%  if( user && review.author.equals(user._id))  {%>
 
-      <p class="starability-result" data-rating="<%=review.rating%>">
-        Rated: <%= review.rating %> stars
-    </p>
-      <p><%= review.body  %> </p>
-      
-    
-    
+      <div class="card mt-5">
+        <div class="card-header">
+          Your Review
+        </div>
+        <div class="card-body">
+         <h5><%= user.name  %> </h5>
+          <p class="starability-result" data-rating="<%=review.rating%>">
+            Rated: <%= review.rating %> stars
+        </p>
+          <p class="card-text"><%= review.body  %></p>
+          
+        </div>
+      </div>
+  
+  
     <% } %> 
-  
-    
-  
-  
-  
     <% } %> 
+
   </div>
   <div class="col-sm">
 <h2>My Campgrounds</h2>
 
+
 <% for(let campground of campgrounds){%>
    
-    <% if(currentUser && campground.author.equals(currentUser._id) ){%>
+    <% if(user && campground.author.equals(user._id) ){%>
       
-        <h1><%= campground.title %> </h1>
-        <p><%= campground.description %> </p>
+      <div class="card mt-5" style="width: 28rem;">
+        <img  src=" <%=campground.images[0].url%>" class="card-img-top" alt="...">
+        <div class="card-body">
+          <h5 class="card-title"><%= campground.title %> </h5>
+          <p class="card-text"> <%= campground.description.substring(0, 200) + "..."  %></p>
+        </div>
+        <ul class="list-group list-group-flush">
+          <li class="list-group-item"><%= campground.location %></li>
+          <li class="list-group-item"><%= campground.price %></li>
+          
+        </ul>
+        <% if(currentUser && campground.author.equals(currentUser._id) ){%>
+        <div class="card-body">
+          <a class="card-link btn btn-danger" href="/campgrounds/<%=campground._id%>/edit">Edit</a>
+          <form class="d-inline" action="/campgrounds/<%=campground._id%>?_method=DELETE"" method="POST">
+              <button class="btn btn-danger">Delete</button>
+              
+          </form>
+        </div>
+        <% } %> 
+      </div>
+        
         <% } %>      
       
 <%}%>
