@@ -1,0 +1,33 @@
+
+<% layout('layouts/boilerplate')%>
+
+<h1>Profile</h1>
+<div class="card" style="width: 18rem;">
+    
+    <div class="card-body">
+        <img src="<%= user.avatar %> " alt="">
+      <h5 class="card-title"><%= user.name %> </h5>
+      <p class="card-text"><%= user.bio %> </p>
+    </div>
+    <ul class="list-group list-group-flush">
+      <li class="list-group-item"><%= user.email %> </li>
+      <li class="list-group-item"><%= user.username %> </li>
+     
+    </ul>
+    <div class="card-body">
+      <a href="#" class="card-link">Edit</a>
+      <a href="#" class="card-link">Delete Account</a>
+    </div>
+  </div>
+<h2>My Campgrounds</h2>
+
+<% for(let campground of campgrounds){%>
+    
+    <% if(user && campground.author.equals(user._id) ){%>
+        <h1><%= campground.title %> </h1>
+        <p><%= campground.description %> </p>
+        <% } %>      
+   
+<%}%>
+
+

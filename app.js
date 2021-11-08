@@ -16,6 +16,7 @@ const passport = require('passport')
 const LocalStrategy = require('passport-local')
 const User = require('./models/user');
 const Campground = require('./models/campground');
+const Review = require('./models/review');
 //const morgan=require("morgan");
 
 mongoose.connect('mongodb://localhost:27017/camp-square', {
@@ -42,30 +43,30 @@ app.use(methodOverride('_method'))
 //app.use(morgan("dev"))
 app.use(express.static(path.join(__dirname, 'public')))
 //setting up cookies
-const sessionConfig = {
-  secret: 'gotasecret',
-  resave: false,
-  saveUninitialized: true,
-  cookie: {
-    httpOnly: true,
-    expires: Date.now() + 1000 * 60 * 60 * 24 * 7, //session expiration date(a week from now)
-    maxAge: 1000 * 60 * 60 * 24 * 7,
-  },
-}
-app.use(session(sessionConfig))
+// const sessionConfig = {
+//   secret: 'gotasecret',
+//   resave: false,
+//   saveUninitialized: true,
+//   cookie: {
+//     httpOnly: true,
+//     expires: Date.now() + 1000 * 60 * 60 * 24 * 7, //session expiration date(a week from now)
+//     maxAge: 1000 * 60 * 60 * 24 * 7,
+//   },
+// }
+// app.use(session(sessionConfig))
 app.use(flash())
 app.use(passport.initialize())
 app.use(passport.session())
 passport.use(new LocalStrategy(User.authenticate()))
 passport.serializeUser(User.serializeUser())
 passport.deserializeUser(User.deserializeUser())
-app.use((req, res, next) => {
-  console.log(req.session)
-  res.locals.currentUser = req.user
-  res.locals.success = req.flash('success')
-  res.locals.error = req.flash('error')
-  next()
-})
+// app.use((req, res, next) => {
+//   console.log(req.session)
+//   res.locals.currentUser = req.user
+//   res.locals.success = req.flash('success')
+//   res.locals.error = req.flash('error')
+//   next()
+// })
 app.use('/', users)
 app.use('/campgrounds', campgrounds)
 app.use('/campgrounds/:id/reviews', reviews)
@@ -78,8 +79,35 @@ app.get("/map",async(req,res)=>{
   res.render("mapPage",{campgrounds})
   console.log(campgrounds)
   
-
 })
+// //USER PROFILE ROUTES
+ app.get('/user/:id', async (req, res,) => {
+  const user = await User.findById(req.params.id)
+  const campgrounds=await Campground.find({});
+  const reviews=await Review.find({});
+  console.log(reviews)
+
+  
+  res.render('users/profile', { campgrounds,user,reviews });
+ });
+
+// app.get('/user/:id/edit', async (req, res) => {
+//   const user = await User.findById(req.params.id)
+//   res.render('users/profile', { user });
+// })
+
+// app.put('/user/:id', async (req, res) => {
+//   const { id } = req.params;
+//   const user = await User.findByIdAndUpdate(id, { ...req.body.user });
+//   res.redirect(`/user/${user._id}`)
+// });
+
+// app.delete('/user/:id', async (req, res) => {
+//   const { id } = req.params;
+//   await User.findByIdAndDelete(id);
+//   res.redirect('/login');
+// })
+// //USER PROFILE ROUTES
 
 app.all('*', (req, res, next) => {
   next(new ExpressError('Page Not Found', 404))
