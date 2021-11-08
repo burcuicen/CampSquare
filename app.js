@@ -43,30 +43,29 @@ app.use(methodOverride('_method'))
 //app.use(morgan("dev"))
 app.use(express.static(path.join(__dirname, 'public')))
 //setting up cookies
-// const sessionConfig = {
-//   secret: 'gotasecret',
-//   resave: false,
-//   saveUninitialized: true,
-//   cookie: {
-//     httpOnly: true,
-//     expires: Date.now() + 1000 * 60 * 60 * 24 * 7, //session expiration date(a week from now)
-//     maxAge: 1000 * 60 * 60 * 24 * 7,
-//   },
-// }
-// app.use(session(sessionConfig))
+ const sessionConfig = {
+   secret: 'gotasecret',
+   resave: false,
+   saveUninitialized: true,
+   cookie: {
+     httpOnly: true,
+     
+   },
+ }
+app.use(session(sessionConfig))
 app.use(flash())
 app.use(passport.initialize())
 app.use(passport.session())
 passport.use(new LocalStrategy(User.authenticate()))
 passport.serializeUser(User.serializeUser())
 passport.deserializeUser(User.deserializeUser())
-// app.use((req, res, next) => {
-//   console.log(req.session)
-//   res.locals.currentUser = req.user
-//   res.locals.success = req.flash('success')
-//   res.locals.error = req.flash('error')
-//   next()
-// })
+app.use((req, res, next) => {
+  console.log(req.session)
+   res.locals.currentUser = req.user
+   res.locals.success = req.flash('success')
+   res.locals.error = req.flash('error')
+   next()
+ })
 app.use('/', users)
 app.use('/campgrounds', campgrounds)
 app.use('/campgrounds/:id/reviews', reviews)
@@ -85,7 +84,7 @@ app.get("/map",async(req,res)=>{
   const user = await User.findById(req.params.id)
   const campgrounds=await Campground.find({});
   const reviews=await Review.find({});
-  console.log(reviews)
+  //console.log(reviews)
 
   
   res.render('users/profile', { campgrounds,user,reviews });
