@@ -37,10 +37,12 @@
       <li class="list-group-item"><%= user.username %> </li>
      
     </ul>
+    <%  if( currentUser && currentUser._id.equals(user._id))  {%>
     <div class="card-body">
       <a href="#" class="card-link btn btn-success">Edit</a>
       <a href="#" class="card-link btn btn-danger">Delete Account</a>
     </div>
+    <% } %> 
   </div>
 </div>
 <div class="col-sm ">

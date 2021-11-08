@@ -1,6 +1,9 @@
 if (process.env.NODE_ENV !== 'production') {
   require('dotenv').config()
 }
+var bodyParser = require('body-parser');
+var multer = require('multer');
+var upload = multer();
 const express = require('express')
 const mongoose = require('mongoose')
 const ejsMate = require('ejs-mate')
@@ -41,6 +44,14 @@ app.use(methodOverride('_method'))
 //home.ejs is the first page
 //use morgan package for logging
 //app.use(morgan("dev"))
+app.use(bodyParser.json()); 
+
+// for parsing application/xwww-
+app.use(bodyParser.urlencoded({ extended: true })); 
+//form-urlencoded
+
+// for parsing multipart/form-data
+app.use(upload.array()); 
 app.use(express.static(path.join(__dirname, 'public')))
 //setting up cookies
  const sessionConfig = {
@@ -60,7 +71,7 @@ passport.use(new LocalStrategy(User.authenticate()))
 passport.serializeUser(User.serializeUser())
 passport.deserializeUser(User.deserializeUser())
 app.use((req, res, next) => {
-  console.log(req.session)
+  
    res.locals.currentUser = req.user
    res.locals.success = req.flash('success')
    res.locals.error = req.flash('error')
@@ -90,16 +101,28 @@ app.get("/map",async(req,res)=>{
   res.render('users/profile', { campgrounds,user,reviews });
  });
 
-// app.get('/user/:id/edit', async (req, res) => {
-//   const user = await User.findById(req.params.id)
-//   res.render('users/profile', { user });
-// })
+ app.get('/user/:id/edit', async (req, res) => {
+   const user = await User.findById(req.params.id)
+   res.render('users/edit', { user });
+ })
 
-// app.put('/user/:id', async (req, res) => {
-//   const { id } = req.params;
-//   const user = await User.findByIdAndUpdate(id, { ...req.body.user });
-//   res.redirect(`/user/${user._id}`)
-// });
+ app.put('/user/:id', async (req, res) => {
+   const { id } = req.params;
+   const name=req.body.user.name
+   const bio=req.body.user.bio
+
+   const user = await User.findByIdAndUpdate(id, { name: name, bio:bio });
+  
+  
+   
+  //  const img = req.files.map((f) => ({
+  //   url: f.path,
+  // }))
+  // console.log(img[0].url)
+  // user.avatar=img[0].url
+  // await user.save()
+   res.redirect(`/user/${user._id}`)
+ });
 
 // app.delete('/user/:id', async (req, res) => {
 //   const { id } = req.params;
